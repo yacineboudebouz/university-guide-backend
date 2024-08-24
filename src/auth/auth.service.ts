@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/typeorm/entities/User';
 import { Repository } from 'typeorm';
@@ -18,6 +18,12 @@ export class AuthService {
 
   async registerUser(registerDto: RegisterDto) {
     const { username, email, password } = registerDto;
+    const userExists = await this.userRepository.findOne({
+      where: [{ username }, { email }],
+    });
+    if (userExists) {
+      throw new HttpException('User already exists', 409);
+    }
     const hashedPassword = await HashingHelper.hashPassword(password);
     const user = this.userRepository.create({
       username,
@@ -29,7 +35,7 @@ export class AuthService {
     await this.profileRepository.save(profile);
     user.profile = profile;
     await this.userRepository.save(user);
-    return user;
+    return { message: 'User registered successfully' };
   }
 
   async validateUser(loginDto: LoginDto) {
@@ -55,7 +61,18 @@ export class AuthService {
         username: user.username,
         email: user.email,
       });
-      return { access_token: token };
+      return {
+        access_token: token,
+        user: {
+          username: user.username,
+          email: user.email,
+          profile: user.profile,
+        },
+      };
     }
+  }
+
+  async findUserById(id: number) {
+    return await this.userRepository.findOne({ where: { id } });
   }
 }

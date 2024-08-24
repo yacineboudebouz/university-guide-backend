@@ -8,17 +8,18 @@ import { JwtModule } from '@nestjs/jwt';
 import { Profile } from 'src/typeorm/entities/Profile';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Profile]),
     PassportModule,
     JwtModule.register({
-      secret: 'IWILLCHANGEITLATER',
+      secret: 'MYSECRETKEY',
       signOptions: { expiresIn: '7d' },
     }),
   ],
-  providers: [AuthService, LocalStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}

@@ -24,7 +24,7 @@ export class AuthController {
   @Post('register')
   @UsePipes(new ValidationPipe())
   async registerUser(@Body() registerDto: RegisterDto) {
-    this.authService.registerUser(registerDto);
+    return this.authService.registerUser(registerDto);
   }
 
   @HttpCode(200)
@@ -37,7 +37,8 @@ export class AuthController {
   @HttpCode(200)
   @Get('profile')
   @UseGuards(JwtAuthGuard)
-  async getProfile(@Req() req: Request) {
-    return req.user;
+  async getProfile(@Req() req: any) {
+    const id = req.user.userId;
+    return { id };
   }
 }
