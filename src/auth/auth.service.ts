@@ -43,9 +43,8 @@ export class AuthService {
         return null;
       }
     }
-    const hashedPassword = await HashingHelper.hashPassword(password);
     const passwordMatching = await HashingHelper.comparePassword(
-      hashedPassword,
+      password,
       user.password,
     );
     if (!passwordMatching) {
