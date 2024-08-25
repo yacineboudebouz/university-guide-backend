@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -12,7 +13,7 @@ import {
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dtos/register.dto';
 
-import { Request, request } from 'express';
+import { Request } from 'express';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 

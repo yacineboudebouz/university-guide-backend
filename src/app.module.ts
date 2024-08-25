@@ -10,6 +10,7 @@ import { Profile } from './typeorm/entities/Profile';
 
 import { AuthService } from './auth/auth.service';
 import { ConfigModule } from '@nestjs/config';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ConfigModule } from '@nestjs/config';
       synchronize: true,
     }),
     AuthModule,
+    ProfileModule,
     ConfigModule.forRoot({ envFilePath: './.env' }),
   ],
   controllers: [AppController],
