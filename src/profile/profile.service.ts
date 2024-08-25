@@ -23,4 +23,14 @@ export class ProfileService {
     await this.profileRepository.save(user.profile);
     return { message: 'Profile updated successfully' };
   }
+  async getProfile(userId: number) {
+    let user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['profile'],
+    });
+    if (!user) {
+      throw new HttpException('Profile not found', 404);
+    }
+    return user.profile;
+  }
 }

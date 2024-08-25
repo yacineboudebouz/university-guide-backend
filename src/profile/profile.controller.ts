@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   Patch,
   Req,
@@ -13,6 +14,7 @@ import { ProfileService } from './profile.service';
 @Controller('profile')
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
+
   @HttpCode(201)
   @Patch('')
   @UseGuards(JwtAuthGuard)
@@ -21,5 +23,12 @@ export class ProfileController {
     @Body() updateProdile: UpdateProfileDto,
   ) {
     return this.profileService.UpdateProfile(updateProdile, req.user.id);
+  }
+
+  @HttpCode(200)
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async getProfile(@Req() req: any) {
+    return this.profileService.getProfile(req.user.id);
   }
 }
