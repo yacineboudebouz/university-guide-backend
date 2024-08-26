@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   Req,
   UseGuards,
   UsePipes,
@@ -11,8 +12,9 @@ import {
 import { PostService } from './post.service';
 import { CreatePostDto } from './dtos/CreatePost.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Transform } from 'class-transformer';
 
-@Controller('post')
+@Controller('posts')
 export class PostController {
   constructor(private readonly postService: PostService) {}
   @Post()
@@ -30,5 +32,10 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   async getMyPosts(@Req() req: any) {
     return this.postService.getUserPosts(req.user.id);
+  }
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async getPosts(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.postService.getPosts(page, limit);
   }
 }
