@@ -4,6 +4,7 @@ import { Profile } from 'src/typeorm/entities/Profile';
 import { User } from 'src/typeorm/entities/User';
 import { Repository } from 'typeorm';
 import { UpdateProfileDto } from './dtos/updateptofile.dto';
+import { School } from 'src/typeorm/entities/School';
 
 @Injectable()
 export class ProfileService {

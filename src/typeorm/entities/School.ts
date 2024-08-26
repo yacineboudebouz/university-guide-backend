@@ -9,6 +9,7 @@ import {
 
 import { User } from './User';
 import { Photo } from './Photo';
+import { Rating } from './Rating';
 
 @Entity()
 export class School {
@@ -30,4 +31,6 @@ export class School {
   @ManyToMany(() => User)
   @JoinTable()
   students: User[];
+  @OneToMany(() => Rating, (rating) => rating.school)
+  ratings: Rating[];
 }

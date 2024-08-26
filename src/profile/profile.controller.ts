@@ -10,6 +10,7 @@ import {
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { UpdateProfileDto } from './dtos/updateptofile.dto';
 import { ProfileService } from './profile.service';
+import { AdminGuard } from 'src/auth/guards/role.guard';
 
 @Controller('profile')
 export class ProfileController {

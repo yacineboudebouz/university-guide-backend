@@ -14,6 +14,7 @@ import { ProfileModule } from './profile/profile.module';
 import { School } from './typeorm/entities/School';
 import { Photo } from './typeorm/entities/Photo';
 import { Post } from './typeorm/entities/Post';
+import { Rating } from './typeorm/entities/Rating';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { Post } from './typeorm/entities/Post';
       username: 'yacine',
       password: 'yacine',
       database: 'university_guide',
-      entities: [User, Profile, School, Photo, Post],
+      entities: [User, Profile, School, Photo, Post, , Rating],
       synchronize: true,
     }),
     AuthModule,
