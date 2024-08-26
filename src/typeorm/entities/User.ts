@@ -29,11 +29,14 @@ export class User {
   @Column()
   createdAt: Date;
 
-  @OneToOne(() => Profile, { eager: true })
+  @OneToOne(() => Profile, { eager: false })
   @JoinColumn()
   profile: Profile;
 
-  @OneToMany(() => Post, (post) => post.user)
+  @OneToMany(() => Post, (post) => post.user, {
+    eager: false,
+    onDelete: 'CASCADE',
+  })
   posts: Post[];
 }
 //

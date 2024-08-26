@@ -5,8 +5,14 @@ import { User } from './User';
 export class Post {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
+  @Column({ default: true })
+  isPending: boolean;
+  @Column({ nullable: true })
   image: string;
-  @ManyToOne(() => User, (user) => user.posts)
+  @Column()
+  title: string;
+  @Column()
+  description: string;
+  @ManyToOne(() => User, (user) => user.posts, { eager: false })
   user: User;
 }
