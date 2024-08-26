@@ -11,6 +11,9 @@ import { Profile } from './typeorm/entities/Profile';
 import { AuthService } from './auth/auth.service';
 import { ConfigModule } from '@nestjs/config';
 import { ProfileModule } from './profile/profile.module';
+import { School } from './typeorm/entities/School';
+import { Photo } from './typeorm/entities/Photo';
+import { Post } from './typeorm/entities/Post';
 
 @Module({
   imports: [
@@ -21,7 +24,7 @@ import { ProfileModule } from './profile/profile.module';
       username: 'yacine',
       password: 'yacine',
       database: 'university_guide',
-      entities: [User, Profile],
+      entities: [User, Profile, School, Photo, Post],
       synchronize: true,
     }),
     AuthModule,
@@ -33,4 +36,5 @@ import { ProfileModule } from './profile/profile.module';
 })
 export class AppModule {
   // constructor(private dataSource: DataSource) {}
+  //
 }
