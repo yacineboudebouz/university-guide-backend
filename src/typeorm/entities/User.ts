@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Profile } from './Profile';
 import { Post } from './Post';
+import { Commentaire } from './Comment';
 
 @Entity({ name: 'users' })
 export class User {
@@ -38,5 +39,10 @@ export class User {
     onDelete: 'CASCADE',
   })
   posts: Post[];
+  @OneToMany(() => Commentaire, (comment) => comment.user, {
+    eager: false,
+    onDelete: 'CASCADE',
+  })
+  comments: Commentaire[];
 }
 //

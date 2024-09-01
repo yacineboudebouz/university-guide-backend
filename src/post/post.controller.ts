@@ -55,4 +55,10 @@ export class PostController {
   async deletePost(@Param('id') id: number, @Req() req: any) {
     await this.postService.deletePost(id, req.user.id);
   }
+
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  async getPost(@Param('id') id: number) {
+    return this.postService.getPostById(id);
+  }
 }

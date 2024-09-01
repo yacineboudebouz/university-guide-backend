@@ -1,13 +1,16 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from 'src/typeorm/entities/Post';
 import { Repository } from 'typeorm';
 import { CreatePostParams } from './types/CreatePost.params';
+import { Commentaire } from 'src/typeorm/entities/Comment';
 
 @Injectable()
 export class PostService {
   constructor(
     @InjectRepository(Post) private postRepository: Repository<Post>,
+    @InjectRepository(Commentaire)
+    private commentRepository: Repository<Commentaire>,
   ) {}
 
   // get paginated posts
@@ -60,5 +63,11 @@ export class PostService {
       throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
     }
     await this.postRepository.remove(post);
+  }
+  async getPostById(id: number) {
+    return this.postRepository.findOne({
+      where: { id },
+      relations: { user: { profile: {} }, comments: {} },
+    });
   }
 }

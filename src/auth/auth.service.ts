@@ -73,6 +73,9 @@ export class AuthService {
   }
 
   async findUserById(id: number) {
-    return await this.userRepository.findOne({ where: { id } });
+    return await this.userRepository.findOne({
+      where: { id },
+      relations: { profile: {}, comments: {} },
+    });
   }
 }
