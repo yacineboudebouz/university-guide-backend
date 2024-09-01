@@ -1,10 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from 'src/typeorm/entities/Post';
-import { Rating } from 'src/typeorm/entities/Rating';
 import { Repository } from 'typeorm';
 import { CreatePostParams } from './types/CreatePost.params';
-import { NEVER } from 'rxjs';
 
 @Injectable()
 export class PostService {
@@ -41,5 +39,26 @@ export class PostService {
     return this.postRepository.find({
       where: { user: { id: userId } },
     });
+  }
+  async getUserPaginatedPosts(page: number, limit: number, userId: number) {
+    return this.postRepository.find({
+      where: { user: { id: 4 } },
+      take: limit,
+      skip: (page - 1) * limit,
+      relations: { user: {} },
+    });
+  }
+  async deletePost(id: number, userId: number) {
+    let post = await this.postRepository.findOne({
+      where: { id: id },
+      relations: ['user'],
+    });
+    if (post.user.id !== userId) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    }
+    if (!post) {
+      throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+    }
+    await this.postRepository.remove(post);
   }
 }

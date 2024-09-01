@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
+  Param,
   Post,
   Query,
   Req,
@@ -12,7 +15,6 @@ import {
 import { PostService } from './post.service';
 import { CreatePostDto } from './dtos/CreatePost.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { Transform } from 'class-transformer';
 
 @Controller('posts')
 export class PostController {
@@ -37,5 +39,20 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   async getPosts(@Query('page') page: number, @Query('limit') limit: number) {
     return this.postService.getPosts(page, limit);
+  }
+  @Get('me/paginated')
+  @UseGuards(JwtAuthGuard)
+  async getMyPostsPaginated(
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+    @Req() req: any,
+  ) {
+    return this.postService.getUserPaginatedPosts(page, limit, req.user.id);
+  }
+  @Delete(':id')
+  @HttpCode(204)
+  @UseGuards(JwtAuthGuard)
+  async deletePost(@Param('id') id: number, @Req() req: any) {
+    await this.postService.deletePost(id, req.user.id);
   }
 }
