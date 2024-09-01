@@ -1,6 +1,9 @@
 import {
   Column,
   Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -25,5 +28,8 @@ export class Post {
   @OneToMany(() => Commentaire, (comment) => comment.post, {
     onDelete: 'CASCADE',
   })
-  comments: Comment[];
+  comments: Commentaire[];
+  @ManyToMany(() => User)
+  @JoinTable()
+  likedBy: User[];
 }

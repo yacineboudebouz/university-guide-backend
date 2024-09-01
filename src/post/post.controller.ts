@@ -15,6 +15,7 @@ import {
 import { PostService } from './post.service';
 import { CreatePostDto } from './dtos/CreatePost.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { AddCommentDto } from './dtos/AddComment.dto';
 
 @Controller('posts')
 export class PostController {
@@ -55,10 +56,31 @@ export class PostController {
   async deletePost(@Param('id') id: number, @Req() req: any) {
     await this.postService.deletePost(id, req.user.id);
   }
-
+  //
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   async getPost(@Param('id') id: number) {
     return this.postService.getPostById(id);
+  }
+  //
+  @Post(':id/like')
+  @UseGuards(JwtAuthGuard)
+  async likePost(@Param('id') id: number, @Req() req: any) {
+    return this.postService.likePost(id, req.user.id);
+  }
+  @Post(':id/comment')
+  @UseGuards(JwtAuthGuard)
+  @UsePipes(new ValidationPipe())
+  async addComment(
+    @Param('id') id: number,
+    @Body() comment: AddCommentDto,
+    @Req() req: any,
+  ) {
+    return this.postService.addComment(id, comment, req.user.id);
+  }
+  @Delete(':id/comment')
+  @UseGuards(JwtAuthGuard)
+  async deleteComment(@Param('id') id: number, @Req() req: any) {
+    return this.postService.deleteComment(id, req.user.id);
   }
 }
