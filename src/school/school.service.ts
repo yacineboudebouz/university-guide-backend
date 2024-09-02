@@ -113,4 +113,10 @@ export class SchoolService {
     avgRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
     return { ...school, avgRating };
   }
+  // async searchSchool(school: string) {
+  //   // find schools by name
+  //   const schools = await this.schoolRepository.find({
+  //     where: { name: school },
+  //   });
+  // }
 }

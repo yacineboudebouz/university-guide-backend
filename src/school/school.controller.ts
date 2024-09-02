@@ -46,7 +46,6 @@ export class SchoolController {
   ) {
     return await this.schoolService.rateSchool(id, req.user.id, rating);
   }
-
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   async getSchool(@Param('id') id: number) {
