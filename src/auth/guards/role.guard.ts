@@ -15,9 +15,9 @@ export class AdminGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
 
     const user = await this.authService.findUserById(request.user.id);
-    console.log(user);
+
     const isAdmin = user.isAdmin;
-    console.log(isAdmin);
+
     if (!isAdmin) {
       throw new UnauthorizedException(
         'You are not allowed to access this resource , Only Admins',

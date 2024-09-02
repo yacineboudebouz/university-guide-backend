@@ -17,6 +17,7 @@ import { Post } from './typeorm/entities/Post';
 import { Rating } from './typeorm/entities/Rating';
 import { PostModule } from './post/post.module';
 import { Commentaire } from './typeorm/entities/Comment';
+import { SchoolModule } from './school/school.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { Commentaire } from './typeorm/entities/Comment';
     ProfileModule,
     ConfigModule.forRoot({ envFilePath: './.env' }),
     PostModule,
+    SchoolModule,
   ],
   controllers: [AppController],
   providers: [AppService],

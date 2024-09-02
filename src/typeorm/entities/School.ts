@@ -22,6 +22,8 @@ export class School {
   @Column()
   image: string;
   @Column()
+  info: string;
+  @Column()
   phoneNumber: string;
   @OneToMany(() => Photo, (photo) => photo.school)
   photos: Photo[];

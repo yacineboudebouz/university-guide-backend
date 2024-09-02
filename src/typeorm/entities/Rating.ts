@@ -20,7 +20,6 @@ export class Rating {
   @ManyToOne(() => School, (school) => school.ratings)
   school: School;
 
-  @ManyToMany(() => User)
-  @JoinTable()
-  user: User[];
+  @ManyToOne(() => User, (user) => user.ratings)
+  user: User;
 }

@@ -10,6 +10,7 @@ import {
 import { Profile } from './Profile';
 import { Post } from './Post';
 import { Commentaire } from './Comment';
+import { Rating } from './Rating';
 
 @Entity({ name: 'users' })
 export class User {
@@ -39,6 +40,10 @@ export class User {
     eager: false,
     onDelete: 'CASCADE',
   })
+  @OneToMany(() => Rating, (rating) => rating.user, {
+    onDelete: 'CASCADE',
+  })
+  ratings: Rating[];
   posts: Post[];
   @OneToMany(() => Commentaire, (comment) => comment.user, {
     eager: false,
