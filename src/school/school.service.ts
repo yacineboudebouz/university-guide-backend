@@ -60,7 +60,8 @@ export class SchoolService {
       school: school,
       value: rating,
     });
-    return await this.ratingRepository.save(newRating);
+    await this.ratingRepository.save(newRating);
+    return { message: 'School rated successfully' };
   }
   async addImageToSchool(schoolId: number, images: string[]) {
     const school = await this.schoolRepository.findOne({
