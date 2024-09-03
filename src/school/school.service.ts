@@ -119,4 +119,52 @@ export class SchoolService {
   //     where: { name: school },
   //   });
   // }
+
+  async addTeacherToSchool(schoolId: number, uesrId: number) {
+    const school = await this.schoolRepository.findOne({
+      where: { id: schoolId },
+      relations: { teachers: true },
+    });
+    if (!school) {
+      throw new HttpException('School not found', 404);
+    }
+    const teacher = await this.userRepository.findOne({
+      where: { id: uesrId },
+    });
+    if (!teacher) {
+      throw new HttpException('Teacher not found', 404);
+    }
+    // checke if teacher already exists
+    school.teachers.forEach((t) => {
+      if (t.id === teacher.id) {
+        throw new HttpException('Teacher already exists', 400);
+      }
+    });
+    school.teachers.push(teacher);
+    await this.schoolRepository.save(school);
+    return { message: 'Teacher added successfully' };
+  }
+  //
+  async addStudentToSchool(schoolId: number, uesrId: number) {
+    const school = await this.schoolRepository.findOne({
+      where: { id: schoolId },
+      relations: { students: true },
+    });
+    if (!school) {
+      throw new HttpException('School not found', 404);
+    }
+    const student = await this.userRepository.findOne({
+      where: { id: uesrId },
+    });
+    if (!student) {
+      throw new HttpException('Student not found', 404);
+    }
+
+    if (school.students.includes(student)) {
+      throw new HttpException('Student already exists', 400);
+    }
+    school.students.push(student);
+    await this.schoolRepository.save(school);
+    return { message: 'Student added successfully' };
+  }
 }
