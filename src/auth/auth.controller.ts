@@ -29,6 +29,7 @@ export class AuthController {
   }
 
   @HttpCode(200)
+  @UsePipes(new ValidationPipe())
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Req() req: Request) {
