@@ -42,4 +42,11 @@ export class AuthController {
     const id = req.user.id;
     return this.authService.findUserById(id);
   }
+
+  @HttpCode(200)
+  @Get('check-token')
+  @UseGuards(JwtAuthGuard)
+  async checkToken() {
+    return { message: 'Token is valid' };
+  }
 }
