@@ -32,6 +32,6 @@ export class ProfileService {
     if (!user) {
       throw new HttpException('Profile not found', 404);
     }
-    return user.profile;
+    return user;
   }
 }
